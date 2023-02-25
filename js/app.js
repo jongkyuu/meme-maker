@@ -1,38 +1,33 @@
-const canvas = document.querySelector("canvas");
+const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 800;
-
 ctx.lineWidth = 2;
 
-const colors = [
-    "#FFFFFF",
-    "#FF0000",
-    "#00FF00",
-    "#0000FF",
-    "#FFFF00",
-    "#00FFFF",
-    "#FF00FF",
-    "#C0C0C0",
-    "#808080",
-    "#800000",
-    "#808000",
-    "#008000",
-    "#800080",
-    "#008080",
-    "#000080"
-];
+let isPainting = false;
 
-function onClick(event){
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    ctx.strokeStyle = color;
-    ctx.lineTo(event.offsetX, event.offsetY);
-    ctx.stroke();
+function onMouseDown(event){
+    var offsetX = event.offsetX;
+    var offsetY = event.offsetY;
+    console.log(`down offsetX, offsetY : ${offsetX}, ${offsetY}`)
+    ctx.moveTo(offsetX, offsetY);
+    isPainting = true;
 }
 
-canvas.addEventListener("mousemove", onClick);
+function onMouseUp(){
+    isPainting = false;
+}
 
+function onMouseMove(event){
+    if(isPainting){
+        var offsetX = event.offsetX;
+        var offsetY = event.offsetY;
+        console.log(`moving offsetX, offsetY : ${offsetX}, ${offsetY}`)
+        ctx.lineTo(offsetX, offsetY);
+        ctx.stroke();
+    }
+}
 
-
+canvas.addEventListener("mousedown", onMouseDown);
+canvas.addEventListener("mouseup", onMouseUp);
+canvas.addEventListener("mousemove", onMouseMove);
