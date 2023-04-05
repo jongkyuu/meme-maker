@@ -6,28 +6,38 @@ ctx.lineWidth = 2;
 
 let isPainting = false;
 
-function onMouseDown(event){
-    var offsetX = event.offsetX;
-    var offsetY = event.offsetY;
-    console.log(`down offsetX, offsetY : ${offsetX}, ${offsetY}`)
-    ctx.moveTo(offsetX, offsetY);
+function startPainting(event){
     isPainting = true;
+    console.log(event);
 }
 
-function onMouseUp(){
+function onMouseUp(event){
     isPainting = false;
 }
 
-function onMouseMove(event){
-    if(isPainting){
-        var offsetX = event.offsetX;
-        var offsetY = event.offsetY;
-        console.log(`moving offsetX, offsetY : ${offsetX}, ${offsetY}`)
-        ctx.lineTo(offsetX, offsetY);
-        ctx.stroke();
+function onMouseLeave(event){
+    if(event.which != 0){
+        return;
     }
+    
+    isPainting = false;
 }
 
-canvas.addEventListener("mousedown", onMouseDown);
+function move(event){
+    console.log(event.which);
+    if(event.which == 0){
+        isPainting = false;
+    }
+
+    if(isPainting){
+        ctx.lineTo(event.offsetX, event.offsetY);
+        ctx.stroke();
+        return;
+    }
+    ctx.moveTo(event.offsetX, event.offsetY);
+}
+
+canvas.addEventListener("mousedown", startPainting);
+canvas.addEventListener("mousemove", move);
 canvas.addEventListener("mouseup", onMouseUp);
-canvas.addEventListener("mousemove", onMouseMove);
+canvas.addEventListener("mouseleave", onMouseLeave);
