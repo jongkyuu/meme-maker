@@ -20,10 +20,10 @@ const colors = [
     "#008000",
     "#800080",
     "#008080",
-    "#000080"
+    "#000080",
 ];
 
-function onClick(event){
+function onClick(event) {
     ctx.beginPath();
     ctx.moveTo(0, 0);
     const color = colors[Math.floor(Math.random() * colors.length)];
@@ -33,6 +33,3 @@ function onClick(event){
 }
 
 canvas.addEventListener("mousemove", onClick);
-
-
-
